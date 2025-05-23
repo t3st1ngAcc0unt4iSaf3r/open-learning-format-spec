@@ -751,3 +751,115 @@ Example:
 - [x] Always include the `"category": "Tool_WEB_WIDGET"` field.
 
 
+---
+
+# Important
+
+
+# 📘 OLF Required Parameters Summary
+
+This document summarizes the **required** parameters and structure for a valid `content.json` in an Open Learning Format (OLF) file. Note that if any of these are missing, the OLF file will not open.
+
+---
+
+## 🧱 Top-Level Structure
+
+```json
+{
+  "olf": {
+    "width": 1920,
+    "height": 1080,
+    "viewbox": "0,0,1920,1080",
+    "meta": { ... },
+    "pageset": [
+      { "page": { ... } }
+    ],
+    "additional": [],
+    "links": [],
+    "groups": []
+  }
+}
+```
+
+---
+
+## 🧾 Metadata (`meta`) Block
+
+Required fields inside `meta`:
+
+- `id`: Unique UUID
+- `create-platform`
+- `create-by-library`
+- `create-time`
+- `modify-time`
+- `create-library-version`
+- `create-version`
+- `modify-version`
+- `modify-platform`
+
+---
+
+## 📄 Page Structure
+
+Each item in `pageset` must be wrapped in `"page"`:
+
+```json
+{
+  "page": {
+    "id": "uuid",
+    "matrix": "1,0,0,0,1,0,0,0,1",
+    "viewbox": "0,0,1920,1080",
+    "is-hidden": false,
+    "elements": [ ... ],
+    "backgrounds": [ ... ]
+  }
+}
+```
+
+---
+
+## 🧩 Element Requirements
+
+### Polygon
+
+```json
+"polygon": {
+  "id": "uuid",
+  "points": "x1,y1 x2,y2 x3,y3 x4,y4",
+  "fill": "#FFFFFF",
+  "stroke": "#000000",
+  "stroke-width": 2,
+  "matrix": "1,0,0,0,1,0,0,0,1"
+}
+```
+
+- `points`: Required, defines absolute position on canvas
+- `matrix`: Typically identity
+- `x`, `y`, `width`, `height`: Optional (informational only)
+
+---
+
+## 🎨 Background Block
+
+At least one background should be defined:
+
+```json
+{
+  "background": {
+    "id": "uuid",
+    "type": "color",
+    "fill": "#FFFFFF",
+    "opacity": 1.0
+  }
+}
+```
+
+---
+
+## ✅ Packaging Notes
+
+- All files must be placed in the root of the ZIP archive.
+- File must be renamed from `.zip` to `.olf`.
+
+
+
