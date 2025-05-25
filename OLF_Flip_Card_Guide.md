@@ -44,8 +44,8 @@ A flip card displays a question or prompt on one side, and flips to show an answ
 | `category`               | Always set to `"Tool_FLASH_CARD"`                               |
 | `question-title`         | Optional label for the front (e.g., `"Question"`)               |
 | `question`               | Text shown on the front of the card                             |
-| `answer`                 | Main answer text shown on the back                              |
-| `explanation`            | Additional explanation text (optional)                          |
+| `answer`                 | Optional title for answer shown on the back                     |
+| `explanation`            | Main answer text shown on the back                              |
 | `question-image`         | Optional image URL or path for the front                        |
 | `answer-image`           | Optional image URL or path for the back                         |
 | `x`, `y`                 | Position of the card on canvas (top-left corner)                |
