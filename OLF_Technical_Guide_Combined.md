@@ -386,6 +386,92 @@ Example:
 - [x] Use consistent UUIDs and identity `matrix`.
 
 
+---
+
+# 📑 Understanding `custom-data` vs `text-blocks-container` in OLF `textarea` Elements
+
+This section explains the critical difference between the `custom-data` and `text` parameters within `textarea` elements in `content.json` files of Open Learning Format (OLF) archives.
+
+---
+
+## 🔍 Definitions
+
+### 1. `custom-data`
+- **Type**: A raw RTF (Rich Text Format) string.
+- **Purpose**: Provides a complete text block with formatting embedded in RTF syntax.
+- **Usage**: Prioritized by many ViewSonic viewers for rendering performance and backward compatibility.
+- **Limitation**: Not human-readable and harder to manipulate programmatically.
+
+### 2. `text-blocks-container`
+- **Type**: A structured JSON array.
+- **Purpose**: Describes paragraphs and styled text segments in a clean and editable format.
+- **Usage**: Used by internal tooling, editing features, and semantic processors.
+- **Limitation**: May be ignored by viewers if `custom-data` is present.
+
+---
+
+## ⚖️ Comparison Table
+
+| Feature                  | `custom-data` (RTF)               | `text-blocks-container` (JSON)   |
+|--------------------------|-----------------------------------|----------------------------------|
+| Format                   | RTF string                        | JSON structure                   |
+| Readability              | ❌ Not human-readable             | ✅ Human-readable                 |
+| Granular Styling         | Moderate (RTF tags)               | High (per-word formatting)       |
+| Rendering Priority       | ✅ Often rendered first           | ❗ May be ignored                 |
+| Ease of Localization     | ❌ Harder                         | ✅ Easier                        |
+| Required for OLF         | ✅ Recommended                    | ✅ Required                      |
+
+---
+
+## ✅ Best Practice
+
+**Always update both `custom-data` and `text-blocks-container` fields** to ensure consistent behavior across ViewSonic applications.
+
+- Ensure the `custom-data` RTF reflects the same content as `text-blocks-container`.
+- Keep text consistent in translations, updates, and content patching workflows.
+
+---
+
+## ⚠️ Special Note for Translations
+
+> When translating OLF content, it is essential to **update both `custom-data` and `text-blocks-container`**. Failing to do so may cause the viewer to display the original (untranslated) language from `custom-data`.
+
+---
+
+## 🧪 Example
+
+### Sample `textarea` structure:
+```json
+{
+  "textarea": {
+    "custom-data": "{\rtf1\ansi\deff0 {\fonttbl {\f0 Segoe UI;}}\f0\fs40 Hola mundo}",
+    "custom-data-tag": "RTFxamlStr_UWP",
+    "text-blocks-container": [
+      {
+        "paragraph": {
+          "text-align": "center",
+          "text-list-container": [
+            {
+              "text": {
+                "text": "Hola mundo",
+                "font-family": "Segoe UI",
+                "font-size": 53.0,
+                "fill": "#FF000000"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+---
+
+
+
+
 # 🖼️ Inserting Images in an OLF File
 
 This guide explains how to embed and position image elements in an Open Learning Format (OLF) file by defining an `image` element within the `content.json` structure.
@@ -753,6 +839,7 @@ Example:
 
 ---
 
+
 # Important
 
 
@@ -859,6 +946,7 @@ At least one background should be defined:
 ## ✅ Packaging Notes
 
 - All files must be placed in the root of the ZIP archive.
+- Always verify that all JSON files inside the ZIP file are readable as text. 
 - File must be renamed from `.zip` to `.olf`.
 
 
